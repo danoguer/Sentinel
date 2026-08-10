@@ -5,8 +5,6 @@
 ![Go Version](https://img.shields.io/badge/go-1.22+-00ADD8?style=flat&logo=go)
 ![Docker](https://img.shields.io/badge/docker-hardened-2496ED?style=flat&logo=docker)
 ![Architecture](https://img.shields.io/badge/architecture-hybrid_CLI%2FDaemon-orange)
-![License](https://img.shields.io/badge/license-MIT-green)
-
 ---
 
 ## 📸 Demo
