@@ -43,7 +43,7 @@ graph LR
 
 ```bash
 # Install
-git clone https://github.com/your-username/sentinel.git && cd sentinel
+git clone https://github.com/danoguer/sentinel.git && cd sentinel
 chmod +x install.sh && ./install.sh
 
 # Analyze workspace or deployment scripts
