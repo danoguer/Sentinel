@@ -1,13 +1,8 @@
 # 🛡️ Sentinel — AI-Driven SRE Context Engine
 
-> A lightweight, context-aware diagnostic CLI and daemon designed to collect local server telemetry, inspect project workspaces, and deliver instant SRE root-cause analysis via LLMs.
+> A context-aware CLI and daemon combining host telemetry, logs, and workspace code for LLM-powered SRE diagnostics.
 
-![Go Version](https://img.shields.io/badge/go-1.22+-00ADD8?style=flat&logo=go)
-![Docker](https://img.shields.io/badge/docker-hardened-2496ED?style=flat&logo=docker)
-![Architecture](https://img.shields.io/badge/architecture-hybrid_CLI%2FDaemon-orange)
 ---
-
-## 📸 Demo
 
 ![Sentinel CLI Demo](docs/assets/sentinel-demo.gif)
 
@@ -15,18 +10,55 @@
 
 ## 📌 Overview
 
-**Sentinel** is an infrastructure **Context Engine** built in Go. Rather than acting as a generic AI chatbot, Sentinel inspects host telemetry, process logs, and workspace source files locally, assembling a structured context payload to deliver hyper-condensed, actionable diagnostic steps via the Gemini API.
+Sentinel builds a structured representation of your environment (telemetry, processes, logs, project files) before querying Gemini, delivering concise root-cause hypotheses and actionable next steps directly in the terminal.
 
----
+```text
+Workspace + Host ➔ Context Collection ➔ Structured Context ➔ Gemini Analysis ➔ Diagnosis + Actions
 
-## 🏗️ Architecture
+🏗️ Architecture
 
-Sentinel uses a **hybrid architecture**: a fast, zero-dependency native CLI that interacts with a containerized background Daemon over local UNIX domain sockets.
+A native Go CLI communicates with a containerized background daemon via UNIX domain sockets.
+Fragmento de código
 
 ```mermaid
 graph LR
     User[Terminal User] -->|sentinel explain| CLI[Native Go CLI]
-    CLI -->|Scans Local Path| Files[Workspace Files / Scripts]
-    CLI -->|IPC / UNIX Socket| Daemon[Sentinel Daemon Container]
-    Daemon -->|Structured Context + Tool Calling| Gemini[Gemini API]
-    Daemon -->|Exposes Health & Metrics| Prom[Prometheus / Grafana]
+    CLI -->|Workspace Inspection| Files[Project Files]
+    CLI -->|IPC / UNIX Socket| Daemon[Sentinel Daemon]
+    Daemon -->|Telemetry & Logs| Host[Linux Host]
+    Daemon -->|Structured Context| Gemini[Gemini API]
+    Daemon -->|Metrics| Prom[Prometheus] --> Grafana[Grafana]
+
+✨ Key Features
+
+    Host & Process Telemetry: CPU/memory usage, process state, and service log extraction.
+
+    Workspace Inspection: Recursive file scanning with 50KB safety caps and custom exclusions.
+
+    Hardened IPC: Communicates via restricted UNIX sockets (read_only rootfs, dropped capabilities).
+
+    Observability: Built-in Prometheus metrics endpoint (:2112) and Grafana integration.
+
+🚀 Quick Start & Usage
+```Bash
+
+# Install
+git clone [https://github.com/your-username/sentinel.git](https://github.com/your-username/sentinel.git) && cd sentinel
+chmod +x install.sh && ./install.sh
+
+# Analyze workspace or deployment scripts
+sentinel explain install.sh
+sentinel explain ./my-project
+
+# Run service collectors
+sentinel explain docker "Why is the web container crashing?"
+
+🗺️ Cloud-Native Roadmap
+
+    [x] Local workspace scanning & hardened Docker IPC daemon
+
+    [ ] AWS Collectors: EC2 Metadata (169.254.169.254), STS identity, CloudWatch metrics & ECS task state.
+
+📄 License
+
+MIT
