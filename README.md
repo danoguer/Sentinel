@@ -4,10 +4,6 @@
 
 ---
 
-![Sentinel CLI Demo](docs/assets/sentinel-demo.gif)
-
----
-
 ## 📌 Overview
 
 Sentinel builds a structured representation of your environment (telemetry, processes, logs, project files) before querying Gemini, delivering concise root-cause hypotheses and actionable next steps directly in the terminal.
@@ -16,10 +12,9 @@ Sentinel builds a structured representation of your environment (telemetry, proc
 Workspace + Host ➔ Context Collection ➔ Structured Context ➔ Gemini Analysis ➔ Diagnosis + Actions
 ```
 
-🏗️ Architecture
+## 🏗️ Architecture
 
 A native Go CLI communicates with a containerized background daemon via UNIX domain sockets.
-Fragmento de código
 
 ```mermaid
 graph LR
@@ -29,22 +24,20 @@ graph LR
     Daemon -->|Telemetry & Logs| Host[Linux Host]
     Daemon -->|Structured Context| Gemini[Gemini API]
     Daemon -->|Metrics| Prom[Prometheus] --> Grafana[Grafana]
+```
 
-✨ Key Features
+## ✨ Key Features
 
-    Host & Process Telemetry: CPU/memory usage, process state, and service log extraction.
+- **Host & Process Telemetry:** CPU/memory usage, process state, and service log extraction.
+- **Workspace Inspection:** Recursive file scanning with 50KB safety caps and custom exclusions.
+- **Hardened IPC:** Communicates via restricted UNIX sockets (`read_only` rootfs, dropped capabilities).
+- **Observability:** Built-in Prometheus metrics endpoint (`:2112`) and Grafana integration.
 
-    Workspace Inspection: Recursive file scanning with 50KB safety caps and custom exclusions.
+## 🚀 Quick Start & Usage
 
-    Hardened IPC: Communicates via restricted UNIX sockets (read_only rootfs, dropped capabilities).
-
-    Observability: Built-in Prometheus metrics endpoint (:2112) and Grafana integration.
-
-🚀 Quick Start & Usage
-```Bash
-
+```bash
 # Install
-git clone [https://github.com/your-username/sentinel.git](https://github.com/your-username/sentinel.git) && cd sentinel
+git clone https://github.com/your-username/sentinel.git && cd sentinel
 chmod +x install.sh && ./install.sh
 
 # Analyze workspace or deployment scripts
@@ -53,13 +46,13 @@ sentinel explain ./my-project
 
 # Run service collectors
 sentinel explain docker "Why is the web container crashing?"
+```
 
-🗺️ Cloud-Native Roadmap
+## 🗺️ Cloud-Native Roadmap
 
-    [x] Local workspace scanning & hardened Docker IPC daemon
+- [x] Local workspace scanning & hardened Docker IPC daemon
+- [ ] AWS Collectors: EC2 Metadata (`169.254.169.254`), STS identity, CloudWatch metrics & ECS task state.
 
-    [ ] AWS Collectors: EC2 Metadata (169.254.169.254), STS identity, CloudWatch metrics & ECS task state.
-
-📄 License
+## 📄 License
 
 MIT
