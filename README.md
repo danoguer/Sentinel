@@ -4,6 +4,12 @@
 
 ---
 
+## 📸 Demo
+
+![Sentinel CLI Demo](docs/assets/sentinel-demo.gif)
+
+---
+
 ## 📌 Overview
 
 Sentinel builds a structured representation of your environment (telemetry, processes, logs, project files) before querying Gemini, delivering concise root-cause hypotheses and actionable next steps directly in the terminal.
