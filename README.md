@@ -14,6 +14,7 @@ Sentinel builds a structured representation of your environment (telemetry, proc
 
 ```text
 Workspace + Host ➔ Context Collection ➔ Structured Context ➔ Gemini Analysis ➔ Diagnosis + Actions
+```
 
 🏗️ Architecture
 
