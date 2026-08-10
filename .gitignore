@@ -1,2 +1,24 @@
+
+bin/
+
+
+vendor/
+*.exe
+*.dll
+*.so
+*.dylib
+# Logs
+*.log
+
+
+.env
 secrets/
-sentinel-bin
+
+demo.tape
+
+.vscode/
+.idea/
+
+# --- OS temporary files ---
+.DS_Store
+Thumbs.db
